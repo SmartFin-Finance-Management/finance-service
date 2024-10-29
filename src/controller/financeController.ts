@@ -1,6 +1,9 @@
 // controllers/financeController.ts
 import { Request, Response } from 'express';
 import * as financeService from '../service/financeService';
+import { generateFinancePdf } from '../utils/pdfGenerator';
+import pdfMake from 'pdfmake';
+const path = require('path');
 
 // Get all financial transactions
 export const getAllFinance = async (req: Request, res: Response): Promise<void> => {
@@ -29,13 +32,40 @@ export const getFinanceById = async (req: Request, res: Response): Promise<void>
 
 // Add a new financial transaction
 export const addFinance = async (req: Request, res: Response): Promise<void> => {
+    const transactionData = req.body;
+    
     try {
-        const transactionData = req.body;
         const newTransaction = await financeService.addFinance(transactionData);
         res.status(201).json(newTransaction);
-    } catch (error) {
-        res.status(500).json({ error: "error adding"});
-    }
+        const fontPath = path.join(__dirname, 'roboto.regular.ttf');
+    
+        // Generate PDF using purchase order data
+        const documentDefinition = generateFinancePdf(newTransaction);
+    
+        var fonts = {
+          Roboto: {
+            normal: fontPath,
+          }
+        };
+        var printer = new pdfMake(fonts);
+    
+        const pdfDoc = printer.createPdfKitDocument(documentDefinition);
+        
+        res.setHeader('Content-Disposition', `attachment; filename="purchase_order.pdf_${newTransaction.transaction_id}"`);
+        res.setHeader('Content-Type', 'application/pdf');
+    
+    
+        pdfDoc.pipe(res);
+        pdfDoc.end();
+      }  catch (error) {
+        console.error(error); // Log the error for debugging
+        
+        if (error instanceof Error) {
+          res.status(500).json({ error: 'Error creating ', details: error.message });
+        } else {
+          res.status(500).json({ error: 'Error creating ', details: 'An unknown error occurred.' });
+        }
+      }
 };
 
 // Update a financial transaction by ID
