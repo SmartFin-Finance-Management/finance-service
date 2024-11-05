@@ -20,6 +20,8 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/mongoose": "^5.11.97"
+    "@types/mongoose": "^5.11.97",
+    "@types/pdfmake": "^0.2.9",
+    "pdfmake": "^0.2.15"
   }
 }

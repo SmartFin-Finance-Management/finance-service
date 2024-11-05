@@ -5,8 +5,8 @@ const financeSchema = new Schema({
     transaction_id: {
         type: Number,
         required: true,
-        unique: true,
-        auto: true // Mongoose does not support AUTO_INCREMENT by default, but you can handle it manually.
+        // unique: true,
+        //auto: true // Mongoose does not support AUTO_INCREMENT by default, but you can handle it manually.
     },
     project_id: {
         type: Number,
@@ -23,7 +23,7 @@ const financeSchema = new Schema({
     invoice_number: {
         type: String,
         required: true,
-        unique: true,
+        // unique: true,
     },
     amount: {
         type: Number,

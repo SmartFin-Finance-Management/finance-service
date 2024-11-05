@@ -19,12 +19,12 @@ export const generateFinancePdf = (financeData: any): any => {
         styles: {
             header: {
                 fontSize: 18,
-                bold: true,
+                // bold: true,
                 margin: [0, 0, 0, 10]
             },
             subheader: {
                 fontSize: 14,
-                bold: true,
+                // bold: true,
                 margin: [0, 10, 0, 5]
             }
         }
