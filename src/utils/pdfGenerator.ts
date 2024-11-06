@@ -1,6 +1,7 @@
 export const generateFinancePdf = (financeData: any): any => {
     return {
         content: [
+            
             // Invoice Header
             { text: 'INVOICE', style: 'header' },
             {
